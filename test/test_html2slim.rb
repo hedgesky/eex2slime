@@ -22,6 +22,18 @@ class TestHTML2Slim < MiniTest::Test
     end
   end
 
+  def test_id_and_class_rules
+    IO.popen("bin/html2slim test/fixtures/id_and_class_rules.html -", "r") do |f|
+      assert_equal File.read("test/fixtures/id_and_class_rules.slim"), f.read
+    end
+  end
+
+  def test_convert_slim_lang_html
+    IO.popen("bin/html2slim test/fixtures/slim-lang.html -", "r") do |f|
+      assert_equal File.read("test/fixtures/slim-lang.slim"), f.read
+    end
+  end
+
   def test_convert_slim_lang_html
     IO.popen("bin/html2slim test/fixtures/slim-lang.html -", "r") do |f|
       assert_equal File.read("test/fixtures/slim-lang.slim"), f.read
@@ -31,18 +43,6 @@ class TestHTML2Slim < MiniTest::Test
   def test_convert_erb
     IO.popen("bin/erb2slim test/fixtures/erb-example.html.erb -", "r") do |f|
       assert_equal File.read("test/fixtures/erb-example.html.slim"), f.read
-    end
-  end
-
-  def test_convert_devise_erb
-    IO.popen("bin/erb2slim test/fixtures/devise-template.erb -", "r") do |f|
-      assert_equal File.read("test/fixtures/devise-template.slim"), f.read
-    end
-  end
-
-  def test_convert_devise_erb_2
-    IO.popen("bin/erb2slim test/fixtures/devise-template-2.erb -", "r") do |f|
-      assert_equal File.read("test/fixtures/devise-template-2.slim"), f.read
     end
   end
 
