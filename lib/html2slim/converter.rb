@@ -71,7 +71,7 @@ module HTML2Slim
     end
 
     def prepare_regular_ruby_code!
-      @erb.gsub!(/<%(.+?)\s*-?%>/m) {
+      @erb.gsub!(/<%-?(.+?)\s*-?%>/m) {
         %(<ruby code="#{$1.gsub(/"/, '&quot;')}"></ruby>)
       }
     end
