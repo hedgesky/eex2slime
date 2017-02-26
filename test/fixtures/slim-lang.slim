@@ -55,94 +55,94 @@ html[xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"]
           code
             span.tag
               | doctype
-            |  html 
+            | html
             span.tag
               | html
             span.tag
               | head
             span.tag
               | title
-            |  Slim Examples 
+            | Slim Examples
             span.tag
               | meta
-            |  name=
+            | name=
             span.string
               | "keywords"
-            |  content=
+            | content=
             span.string
               | "template language"
             span.tag
               | meta
-            |  name=
+            | name=
             span.string
               | "author"
-            |  content=author 
+            | content=author
             span.filter
               | javascript:
-            |  alert('Slim supports embedded javascript!') 
+            | alert('Slim supports embedded javascript!')
             span.tag
               | body
             span.tag
               | h1
-            |  Markup examples 
+            | Markup examples
             span.tag
               | #content
             span.tag
               | p
-            |  This example shows you how a basic Slim file looks like. == 
+            | This example shows you how a basic Slim file looks like. ==
             span.keyword
               | yield
-            |  - 
+            | -
             span.keyword
               | unless
-            |  items.empty? 
+            | items.empty?
             span.tag
               | table
-            |  - 
+            | -
             span.keyword
               | for
-            |  item 
+            | item
             span.keyword
               | in
-            |  items 
+            | items
             span.keyword
               | do
             span.tag
               | tr
             span.tag
               | td.name
-            |  = item.name 
+            | = item.name
             span.tag
               | td.price
-            |  = item.price - 
+            | = item.price -
             span.keyword
               | else
             span.tag
               | p
-            |  | No items found. Please add some inventory. Thank you! 
+            | | No items found. Please add some inventory. Thank you!
             span.tag
               | div
-            |  id=
+            | id=
             span.string
               | "footer"
-            |  = 
+            | =
             span.keyword
               | render
             span.string
               | 'footer'
-            |  | Copyright &copy; #{year} #{author} 
+            | | Copyright &copy; #{year} #{author}
       p.foot.up
-        |  Source: 
+        | Source:
         a[href="http://github.com/slim-template/slim"]
           | slim-template/slim
-        | &nbsp;|&nbsp;Slim maintained by 
+        | &nbsp;|&nbsp;Slim maintained by
         a[href="http://github.com/minad"]
           | minad
-        | &nbsp;|&nbsp;Logo &amp; design by 
+        | &nbsp;|&nbsp;Logo &amp; design by
         a[href="http://github.com/activestylus"]
           | activestylus
         br
     a#forkme[href="http://github.com/slim-template/slim"]
       | Fork me on Github
     script[type="text/javascript"]
-      |  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E")); try { var pageTracker = _gat._getTracker("UA-19270476-1"); pageTracker._trackPageview(); } catch(err) {} 
+      | var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E")); try { var pageTracker = _gat._getTracker("UA-19270476-1"); pageTracker._trackPageview(); } catch(err) {}

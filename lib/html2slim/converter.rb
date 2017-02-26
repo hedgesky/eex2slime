@@ -18,12 +18,14 @@ module HTML2Slim
       @erb = read_erb(input)
       prepare_curly_blocks!
       prepare_control_flow_statements!
+      prepare_elixir_anonymous_functions!
       prepare_else_statements!
       prepare_elsif_statements!
       prepare_when_statements!
+      prepare_elixir_condition_expressions!
       prepare_end_statements!
       prepare_regular_ruby_code!
-      @slim ||= Hpricot(@erb).to_slim
+      @slim = Hpricot(@erb).to_slim
     end
 
     private
@@ -45,7 +47,13 @@ module HTML2Slim
     end
 
     def prepare_control_flow_statements!
-      @erb.gsub!(/<%(-\s+)?((\s*(case|if|for|unless|until|while) .+?)|.+?do\s*(\|.+?\|)?\s*)-?%>/) {
+      @erb.gsub!(/<%(-\s+)?((\s*(case|if|for|unless) .+?)|.+?do\s*(\|.+?\|)?\s*)-?%>/) {
+        %(<ruby code="#{$2.gsub(/"/, '&quot;')}">)
+      }
+    end
+
+    def prepare_elixir_anonymous_functions!
+      @erb.gsub!(/<%(-\s+)?(.+ fn.*->\s*)-?%>/) {
         %(<ruby code="#{$2.gsub(/"/, '&quot;')}">)
       }
     end
@@ -63,6 +71,12 @@ module HTML2Slim
     def prepare_when_statements!
       @erb.gsub!(/<%-?\s*(when .+?)\s*-?%>/) {
         %(</ruby><ruby code="#{$1.gsub(/"/, '&quot;')}">)
+      }
+    end
+
+    def prepare_elixir_condition_expressions!
+      @erb.gsub!(/<%-?\s*(.* ->)\s*-?%>/) {
+        %(<ruby code="#{$1.gsub(/"/, '&quot;')}"></ruby>)
       }
     end
 

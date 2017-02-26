@@ -1,12 +1,28 @@
-<% if a == "1" -%>
-<% elsif a == '2' -%>
-<% elsif a == "3" -%>
-<% else -%>
-  <% if b > 0 -%>
-  <% elsif b < 0 -%>
-  <% end -%>
-  <% case str %>
-    <% when "foo" %>
-    <% when "bar" %>
-  <% end %>
-<% end -%>
+<%= if condition do %>
+  Test
+<% end %>
+<br>
+
+<%= if 1+1 do %>
+  Test
+<% else %>
+  Test
+<% end %>
+<br>
+
+<%= case a do %>
+<% 1 -> %>
+  Test
+<% 2 -> %>
+  Test
+<% _ -> %>
+  Test
+<% end %>
+
+<br>
+<%= cond do %>
+<% false -> %>
+  1
+<% true -> %>
+  2
+<% end %>

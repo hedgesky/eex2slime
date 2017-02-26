@@ -19,56 +19,28 @@ html[xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"]
       li
         | Char lists work:
         = 'a' <> 'b'
-
     h2
       | Comprehensions
     ul
-      - for name <- names do
+      = for name <- names do
         li
           = name
-
     h2
       | Anonymous functions
     h3
       | Single argument without parentheses
     ul
-      - Enum.map names, fn name ->
+      = Enum.map names, fn name ->
         li
           = name
-
     h3
       | Single argument with parentheses
     ul
-      - Enum.map names, fn(name) ->
+      = Enum.map names, fn(name) ->
         li
           = name
-
     h3
       | Multiple arguments with parentheses
     ul
-      - Enum.map names, fn(a, b, c) ->
+      = Enum.map names, fn(a, b, c) ->
         | Test
-
-    h2
-      | Control flow statements
-
-    = if condition do
-      | Test
-
-    = if 1+1 do
-      | Test
-    - else
-      | Test
-
-    = case a do
-    - 1 ->
-      | Test
-    - 2 ->
-    - _ ->
-      | Test
-
-    = cond do
-    - false
-      | 1
-    - true
-      | 2

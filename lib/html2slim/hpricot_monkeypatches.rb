@@ -4,33 +4,39 @@ Hpricot::XHTMLTransitional.tagset[:ruby] = [:code]
 
 module SlimText
   def to_slim(lvl=0)
-    return nil if to_s.strip.empty?
-    ('  ' * lvl) + %(| #{to_s.gsub(/\s+/, ' ')})
+    return nil if textify.strip.empty?
+    ('  ' * lvl) + %(| #{textify.gsub(/\s+/, ' ').strip})
+  end
+end
+
+module BlankSlim
+  def to_slim(_lvl=0)
+    nil
   end
 end
 
 class Hpricot::CData
   include SlimText
-end
 
-class Hpricot::BogusETag
-  def to_slim(lvl=0)
-    nil
+  def textify
+    to_s
   end
 end
 
 class Hpricot::Text
-  def to_slim(lvl=0)
-    str = content.to_s
-    return nil if str.strip.empty?
-    ('  ' * lvl) + %(| #{str.gsub(/\s+/, ' ')})
+  include SlimText
+
+  def textify
+    content.to_s
   end
 end
 
+class Hpricot::BogusETag
+  include BlankSlim
+end
+
 class Hpricot::Comment
-  def to_slim(lvl=0)
-    nil
-  end
+  include BlankSlim
 end
 
 class Hpricot::DocType
@@ -64,13 +70,20 @@ class Hpricot::Elem
 
   def to_slim(lvl=0)
     if respond_to?(:children) and children
-      return %(#{slim(lvl)}\n#{children.map{|c| c.to_slim(lvl+1) }.select{|e| !e.nil? }.join("\n")})
+      [slim(lvl), children_slim(lvl)].join("\n")
     else
       slim(lvl)
     end
   end
 
   private
+
+  def children_slim(lvl)
+    children
+      .map { |c| c.to_slim(lvl+1) }
+      .select { |e| !e.nil? }
+      .join("\n")
+  end
 
   def slim_ruby_code(r)
     (code.strip[0] == "=" ? "" : "- ") + code.strip.gsub(/\n/, "\n#{r}- ")
@@ -122,7 +135,10 @@ end
 class Hpricot::Doc
   def to_slim
     if respond_to?(:children) and children
-      children.map { |x| x.to_slim }.select{|e| !e.nil? }.join("\n")
+      children
+        .map { |x| x.to_slim }
+        .select{|e| !e.nil? }
+        .join("\n")
     else
       ''
     end

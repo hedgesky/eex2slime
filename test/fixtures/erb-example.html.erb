@@ -8,9 +8,9 @@
     <h1>Testing converter</h1>
     <h2>Interpolating</h2>
     <ul>
-      <li>Numbers work: <%= 2 + 2 %></li>
-      <li>Binaries work: <%= "a" <> "b" %></li>
-      <li>Char lists work: <%= 'a' + 'b' %></li>
+      <li>Numbers work:<%= 2 + 2 %></li>
+      <li>Binaries work:<%= "a" <> "b" %></li>
+      <li>Char lists work:<%= 'a' <> 'b' %></li>
     </ul>
 
     <h2>Comprehensions</h2>
@@ -41,39 +41,5 @@
         Test
       <% end %>
     </ul>
-
-    <h2>Control flow statements</h2>
-    <%= if condition do %>
-      Test
-    <% end %>
-
-    <%= if 1+1 do %>
-      Test
-    <% else %>
-      Test
-    <% end %>
-
-    <%= case a do %>
-    <% 1 -> %>
-      Test
-    <% 2 -> %>
-    <% _ -> %>
-      Test
-    <% end %>
-
-    <%= cond do %>
-    <% false %>
-      1
-    <% true %>
-      2
-    <% end %>
-
-    <h2>Elaborate elixir</h2>
-    <%= SomeModule.some_function(arg1, foo: "bar") %>
-    <%=
-      MultiLine.works(
-        a, b, c, d
-      )
-    %>
   </body>
 </html>
