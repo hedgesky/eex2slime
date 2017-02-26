@@ -5,72 +5,75 @@
   </head>
   <body>
     <% @list = [1,2,3] %>
-    Maybe someone does <% a = "weird" %> kind of <% MARKUP %>
-    <p>Maybe someone does <% a = "weird" %> kind of <% MARKUP %></p>
-    Maybe someone does <% a = "weird" %> kind of <% MARKUP %>
-    <h1>Hi! My name is <%= @name %>!!!</h1>
-    <h1>Hi! 2+2 is <%= 2 + 2 %>!!!</h1>
-    <h1>Hi! a+b is <%= "a" + "b" %> and also <%= "your #{@name}" %>!!!</h1>
-    <h1>Hi! a+b is <%= 'a' + 'b' %> and also <%= "your #{@name}" %>!!!</h1>
+    <h1>Testing converter</h1>
+    <h2>Interpolating</h2>
+    <ul>
+      <li>Numbers work: <%= 2 + 2 %></li>
+      <li>Binaries work: <%= "a" <> "b" %></li>
+      <li>Char lists work: <%= 'a' + 'b' %></li>
+    </ul>
 
+    <h2>Comprehensions</h2>
     <ul>
-      <% for item in @list %>
-        <li>
-          <h2><%= item.method_a %></h2>
-          <%= link_to item.method_b, item, class: "something", :"data-foo" => "The two spaces here  must be respected." %>
-        </li>
+      <%= for name <- names do %>
+        <li><%= name %></li>
       <% end %>
     </ul>
+
+    <h2>Anonymous functions</h2>
+    <h3>Single argument without parentheses</h3>
     <ul>
-      <% @list.each do |item| %>
-        <li>
-          <h2><%= item.method_a %></h2>
-          <%= link_to item.method_b, item, class: "something", :"data-foo" => "The two spaces here  must be respected." %>
-        </li>
+      <%= Enum.map names, fn name -> %>
+        <li><%= name %></li>
       <% end %>
     </ul>
+
+    <h3>Single argument with parentheses</h3>
     <ul>
-      <% @list.each{|item| %>
-        <li>
-          <h2><%= item.method_a %></h2>
-          <%= link_to item.method_b, item, class: "something", :"data-foo" => "The two spaces here  must be respected." %>
-        </li>
-      <% } %>
+      <%= Enum.map names, fn(name) -> %>
+        <li><%= name %></li>
+      <% end %>
     </ul>
+
+    <h3>Multiple arguments with parentheses</h3>
     <ul>
-      <% @list.each{|a,b,c,d| %>
-        <li>
-          <h2><%= item.method_a %></h2>
-          <%= link_to item.method_b, item, class: "something", :"data-foo" => "The two spaces here  must be respected." %>
-        </li>
-      <% } %>
+      <%= Enum.map names, fn(a, b, c) -> %>
+        Test
+      <% end %>
     </ul>
-    <ul>
-      <% 10.times { %>
-        <li> Hey! </li>
-      <% } %>
-    </ul>
-    <% if 1 == 1 %>
-      <p>1 is 1 man!</p>
+
+    <h2>Control flow statements</h2>
+    <%= if condition do %>
+      Test
     <% end %>
-    <% if 1 == 1 %>
-      <p>1 is 1 man!</p>
+
+    <%= if 1+1 do %>
+      Test
     <% else %>
-      <p>1 is not 1 man!</p>
-    <% end %>
-    <% if 1 == 1 %>
-      <p>1 is 1 man!</p>
-    <% elsif 2 == 2 %>
-      <p>2 is 2 man!</p>
-    <% end %>
-    <% case @foo %>
-    <% when 1 %>1
-    <% when 2 %>2
-    <% else %>3
-    <% end %>
-    <% while @foo.next %>
-      NEXT!
+      Test
     <% end %>
 
+    <%= case a do %>
+    <% 1 -> %>
+      Test
+    <% 2 -> %>
+    <% _ -> %>
+      Test
+    <% end %>
+
+    <%= cond do %>
+    <% false %>
+      1
+    <% true %>
+      2
+    <% end %>
+
+    <h2>Elaborate elixir</h2>
+    <%= SomeModule.some_function(arg1, foo: "bar") %>
+    <%=
+      MultiLine.works(
+        a, b, c, d
+      )
+    %>
   </body>
 </html>
