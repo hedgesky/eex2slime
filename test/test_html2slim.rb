@@ -52,7 +52,8 @@ class TestHTML2Slim < MiniTest::Test
     end
   end
 
-  # TODO: fix indentation
+  # It would be cool to use better indentation for case clauses,
+  # but I don't know how to implement it with current gsubby approach.
   def test_convert_elsif_block
     IO.popen("bin/erb2slim test/fixtures/erb_elsif.erb -", "r") do |f|
       assert_equal File.read("test/fixtures/erb_elsif.slim"), f.read
@@ -91,61 +92,20 @@ class TestHTML2Slim < MiniTest::Test
     assert_erb_to_slim text, "| #{text}"
   end
 
-  def test_erb_tags
-    # simple
-    assert_erb_to_slim_with_and_without_leading_dash '<% a = 1 %>', '- a = 1'
-    # simple = (puts)
-    assert_erb_to_slim '<%= @a.b %>', '= @a.b'
-    # no block
-    assert_erb_to_slim_with_and_without_leading_dash '<% @a %>SOME<% @b %>', "- @a\n| SOME\n- @b"
-    # block with do
-    assert_erb_to_slim_with_and_without_leading_dash '<% @a.each do |yay| %>SOME<% yay %><% end %>', "- @a.each do |yay|\n  | SOME\n  - yay"
-    # block with { and on var
-    assert_erb_to_slim_with_and_without_leading_dash '<% @a.each { |yay| %>SOME<% yay %><% } %>', "- @a.each do |yay|\n  | SOME\n  - yay"
-    # block without vars
-    assert_erb_to_slim_with_and_without_leading_dash '<% 10.times { %>SOME<% yay %><% } %>', "- 10.times do\n  | SOME\n  - yay"
-    # if
-    assert_erb_to_slim_with_and_without_leading_dash '<% if 1 == 1 %>SOME<% yay %><% end %>', "- if 1 == 1\n  | SOME\n  - yay"
-    # else
-    assert_erb_to_slim_with_and_without_leading_dash '<% if 1 == 1 %>SOME<% yay %><% else %>OTHER<% end %>', "- if 1 == 1\n  | SOME\n  - yay\n- else\n  | OTHER"
-    # elsif
-    assert_erb_to_slim_with_and_without_leading_dash '<% if 1 == 1 %>SOME<% yay %><% elsif 2 == 2 %>OTHER<% end %>', "- if 1 == 1\n  | SOME\n  - yay\n- elsif 2 == 2\n  | OTHER"
-    # case/when
-    assert_erb_to_slim_with_and_without_leading_dash '<% case @foo %><% when 1 %>1<% when 2 %>2<% else %>3<% end %>', "- case @foo\n- when 1\n  | 1\n- when 2\n  | 2\n- else\n  | 3"
-    # all togheter and mixed
-    assert_erb_to_slim_with_and_without_leading_dash '<% if 1 == 1 %><% for i in @foo.bar %>WORKS<% end %><% end %>', "- if 1 == 1\n  - for i in @foo.bar\n    | WORKS"
-    # unless
-    assert_erb_to_slim_with_and_without_leading_dash '<% unless @foo.done? %>NEXT<% end %>',
-                                                     "- unless @foo.done?\n  | NEXT"
+  def test_with_leading_dash
+    assert_erb_to_slim '<%- test() %>', "- test()"
   end
 
   private
 
-  def assert_html_to_slim(actual_html, expected_slim)
-    File.open(html_file, "w") do |f|
-      f.puts actual_html
-    end
-
-    IO.popen("cat #{html_file} | bin/html2slim", "r") do |f|
-      assert_equal expected_slim, f.read.strip
-    end
+  def assert_html_to_slim(given_html, expected_slim)
+    actual_slim = HTML2Slim::HTMLConverter.new(given_html).to_s
+    assert_equal expected_slim, actual_slim
   end
 
-  def assert_erb_to_slim(actual_erb, expected_slim)
-    File.open(erb_file, "w") do |f|
-      f.puts actual_erb
-    end
-    IO.popen("bin/erb2slim #{erb_file} -", "r") do |f|
-      assert_equal expected_slim, f.read.strip
-    end
-  end
-
-  def assert_erb_to_slim_with_and_without_leading_dash(actual_erb_without_leading_dash, expected_slim)
-    [actual_erb_without_leading_dash,
-     actual_erb_without_leading_dash.sub(/<% /, '<%- ')
-     ].each do |erb|
-      assert_erb_to_slim erb, expected_slim
-    end
+  def assert_erb_to_slim(given_erb, expected_slim)
+    actual_slim = HTML2Slim::ERBConverter.new(given_erb).to_s
+    assert_equal expected_slim, actual_slim
   end
 
   def tmp_dir

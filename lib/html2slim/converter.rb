@@ -8,14 +8,28 @@ module HTML2Slim
   end
 
   class HTMLConverter < Converter
-    def initialize(html)
-      @slim = Hpricot(html).to_slim
+    def self.from_stream(stream)
+      new(stream)
+    end
+
+    def initialize(html_or_stream)
+      @slim = Hpricot(html_or_stream).to_slim
     end
   end
 
   class ERBConverter < Converter
+    def self.from_stream(stream)
+      input =
+        if File.exists?(stream)
+          open(stream).read
+        else
+          stream
+        end
+      new(input)
+    end
+
     def initialize(input)
-      @erb = read_erb(input)
+      @erb = input
       prepare_curly_blocks!
       prepare_control_flow_statements!
       prepare_elixir_anonymous_functions!
@@ -29,16 +43,6 @@ module HTML2Slim
     end
 
     private
-
-    # input may be either string or IO.
-    # open.read makes it works for files & IO
-    def read_erb(input)
-      if File.exists?(input)
-        open(input).read
-      else
-        input
-      end
-    end
 
     def prepare_curly_blocks!
       @erb.gsub!(/<%(.+?)\s*\{\s*(\|.+?\|)?\s*%>/) {

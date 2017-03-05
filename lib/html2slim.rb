@@ -4,9 +4,9 @@ require_relative 'html2slim/converter'
 module HTML2Slim
   def self.convert!(input, format=:html)
     if format.to_s == "html"
-      HTMLConverter.new(input)
+      HTMLConverter.from_stream(input)
     else
-      ERBConverter.new(input)
+      ERBConverter.from_stream(input)
     end
   end
 end

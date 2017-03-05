@@ -21,6 +21,12 @@
     </ul>
 
     <h2>Anonymous functions</h2>
+    <h3>Without arguments</h3>
+    <ul>
+      <%= Enum.map names, fn -> %>
+        <li><%= name %></li>
+      <% end %>
+    </ul>
     <h3>Single argument without parentheses</h3>
     <ul>
       <%= Enum.map names, fn name -> %>

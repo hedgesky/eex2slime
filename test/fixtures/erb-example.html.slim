@@ -28,6 +28,12 @@ html[xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"]
     h2
       | Anonymous functions
     h3
+      | Without arguments
+    ul
+      = Enum.map names, fn ->
+        li
+          = name
+    h3
       | Single argument without parentheses
     ul
       = Enum.map names, fn name ->
