@@ -86,7 +86,14 @@ class Hpricot::Elem
   end
 
   def slim_ruby_code(r)
-    (code.strip[0] == "=" ? "" : "- ") + code.strip.gsub(/\n/, "\n#{r}- ")
+    lines = code.lines.drop_while { |line| line.strip.empty? }
+    indent_level = lines.first.match(/^ */)[0].length
+    prettified = lines.map do |line|
+      line.slice(indent_level .. -1)
+    end.join("#{r}- ")
+
+    first_symbol = code.strip[0] == "=" ? "" : "- "
+    first_symbol + prettified
   end
 
   def code

@@ -46,7 +46,6 @@ class TestHTML2Slim < MiniTest::Test
     end
   end
 
-  # TODO: fix indentation
   def test_convert_multiline_block
     IO.popen("bin/erb2slim test/fixtures/multiline_block.erb -", "r") do |f|
       assert_equal File.read("test/fixtures/multiline_block.slim"), f.read
