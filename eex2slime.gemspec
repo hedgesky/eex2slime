@@ -24,5 +24,4 @@ Gem::Specification.new do |s|
   s.add_dependency "hpricot"
   s.add_development_dependency "minitest"
   s.add_development_dependency "rake"
-  s.add_development_dependency "slim", [">= 1.0.0"]
 end

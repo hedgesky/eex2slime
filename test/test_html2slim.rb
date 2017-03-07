@@ -10,18 +10,6 @@ class TestEEx2Slime < MiniTest::Test
     cleanup_tmp_files
   end
 
-  Dir.glob("test/fixtures/*.html").each do |file|
-    define_method("test_template_#{File.basename(file, '.html')}") do
-      assert_valid_from_html?(file)
-    end
-  end
-
-  Dir.glob("test/fixtures/*.html.erb").each do |file|
-    define_method("test_template_#{File.basename(file, '.html')}") do
-      assert_valid_from_erb?(file)
-    end
-  end
-
   def test_id_and_class_rules
     IO.popen("bin/html2slime test/fixtures/id_and_class_rules.html -", "r") do |f|
       assert_equal File.read("test/fixtures/id_and_class_rules.slime"), f.read
@@ -120,22 +108,10 @@ class TestEEx2Slime < MiniTest::Test
   end
 
   def erb_file
-    File.join(tmp_dir, "dummy.html.erb")
+    File.join(tmp_dir, "dummy.html.eex")
   end
 
   def cleanup_tmp_files
     FileUtils.rm_rf(tmp_dir)
-  end
-
-  def assert_valid_from_html?(source)
-    html = File.open(source)
-    slim = EEx2Slime.convert!(html)
-    assert_instance_of String, Slim::Engine.new.call(slim.to_s)
-  end
-
-  def assert_valid_from_erb?(source)
-    html = File.open(source)
-    slim = EEx2Slime.convert!(html, :erb)
-    assert_instance_of String, Slim::Engine.new.call(slim.to_s)
   end
 end
