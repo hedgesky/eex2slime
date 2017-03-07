@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'minitest/autorun'
 require 'slim'
-require_relative '../lib/html2slim'
+require_relative '../lib/eex2slime'
 
 MiniTest.autorun

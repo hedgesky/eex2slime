@@ -1,7 +1,7 @@
 require 'optparse'
-require 'html2slim'
+require 'eex2slime'
 
-module HTML2Slim
+module EEx2Slime
   class Command
 
     def initialize(args)
@@ -25,11 +25,16 @@ module HTML2Slim
     protected
 
     def format
-      @format ||= (self.class.to_s =~ /ERB/ ? :erb : :html)
+      @format ||=
+        if self.class.to_s == 'EEx2Slime::EExCommand'
+          :eex
+        else
+          :html
+        end
     end
 
     def command_name
-      @command_name ||= format == :html ? "html2slim" : "erb2slim"
+      @command_name ||= format == :html ? "html2slime" : "eex2slime"
     end
 
     def set_opts(opts)
@@ -45,7 +50,7 @@ module HTML2Slim
       end
 
       opts.on_tail('-v', '--version', 'Print version') do
-        puts "#{command_name} #{HTML2Slim::VERSION}"
+        puts "#{command_name} #{EEx2Slime::VERSION}"
         exit
       end
 
@@ -77,16 +82,16 @@ module HTML2Slim
 
     def _process(file, destination = nil)
       require 'fileutils'
-      slim_file = file.sub(/\.#{format}/, '.slim')
+      slime_file = file.sub(/\.#{format}/, '.slime')
 
       if input_is_dir? && destination
-        FileUtils.mkdir_p(File.dirname(slim_file).sub(@options[:input].chomp('/'), destination))
-        slim_file.sub!(@options[:input].chomp('/'), destination)
+        FileUtils.mkdir_p(File.dirname(slime_file).sub(@options[:input].chomp('/'), destination))
+        slime_file.sub!(@options[:input].chomp('/'), destination)
       else
-        slim_file = destination || slim_file
+        slime_file = destination || slime_file
       end
-      
-      fail(ArgumentError, "Source and destination files can't be the same.") if @options[:input] != '-' && file == slim_file
+
+      fail(ArgumentError, "Source and destination files can't be the same.") if @options[:input] != '-' && file == slime_file
 
       in_file = if @options[:input] == "-"
         $stdin
@@ -94,8 +99,8 @@ module HTML2Slim
         File.open(file, 'r')
       end
 
-      @options[:output] = slim_file && slim_file != '-' ? File.open(slim_file, 'w') : $stdout
-      @options[:output].puts HTML2Slim.convert!(in_file, format)
+      @options[:output] = slime_file && slime_file != '-' ? File.open(slime_file, 'w') : $stdout
+      @options[:output].puts EEx2Slime.convert!(in_file, format)
       @options[:output].close
 
       File.delete(file) if @options[:delete]
@@ -103,6 +108,6 @@ module HTML2Slim
   end
   class HTMLCommand < Command
   end
-  class ERBCommand < Command
+  class EExCommand < Command
   end
 end

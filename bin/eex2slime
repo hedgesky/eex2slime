@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 $:.unshift File.dirname(__FILE__) + '/../lib'
-require 'html2slim/command'
-
-cmd = HTML2Slim::HTMLCommand.new(ARGV)
+require 'eex2slime/command'
+cmd = EEx2Slime::EExCommand.new(ARGV)
 cmd.run

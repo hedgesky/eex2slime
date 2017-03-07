@@ -1,9 +1,0 @@
-<p class="asd" asd="asd">
-  <% func() %>
-  <%= func() %>
-  <%= [1,2,3].each do |i| %>
-    <p>
-      <%= i %>
-    </p>
-  <% end %>
-</p>

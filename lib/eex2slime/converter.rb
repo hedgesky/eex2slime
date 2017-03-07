@@ -1,6 +1,6 @@
 require_relative 'hpricot_monkeypatches'
 
-module HTML2Slim
+module EEx2Slime
   class Converter
     def to_s
       @slim
@@ -17,10 +17,10 @@ module HTML2Slim
     end
   end
 
-  class ERBConverter < Converter
+  class EExConverter < Converter
     def self.from_stream(stream)
       input =
-        if File.exists?(stream)
+        if File.exist?(stream)
           open(stream).read
         else
           stream

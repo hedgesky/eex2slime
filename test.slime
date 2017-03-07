@@ -1,6 +1,0 @@
-p.asd[asd="asd"]
-  - func()
-  = func()
-  = [1,2,3].each do |i|
-    p
-      = i
