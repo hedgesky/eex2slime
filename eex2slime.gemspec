@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email            = ["hedgesky@gmail.com"]
   s.summary          = %q{EEx to Slime converter.}
   s.description      = %q{
-    Convert your EEx to Slime templates to make them lightweight.
+    Make your EEx templates lightweight by converting them to Slime.
   }.strip
   s.homepage         = %q{https://github.com/hedgesky/eex2slime}
   s.extra_rdoc_files = ["README.md"]

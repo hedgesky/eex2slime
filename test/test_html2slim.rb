@@ -1,5 +1,9 @@
-require_relative 'helper'
+require 'rubygems'
 require 'tmpdir'
+require 'minitest/autorun'
+require_relative '../lib/eex2slime'
+
+MiniTest.autorun
 
 class TestEEx2Slime < MiniTest::Test
   def setup
@@ -23,8 +27,8 @@ class TestEEx2Slime < MiniTest::Test
   end
 
   def test_convert_erb
-    IO.popen("bin/eex2slime test/fixtures/erb-example.html.eex -", "r") do |f|
-      assert_equal File.read("test/fixtures/erb-example.html.slime"), f.read
+    IO.popen("bin/eex2slime test/fixtures/eex-example.html.eex -", "r") do |f|
+      assert_equal File.read("test/fixtures/eex-example.html.slime"), f.read
     end
   end
 
@@ -35,10 +39,10 @@ class TestEEx2Slime < MiniTest::Test
   end
 
   # It would be cool to use better indentation for case clauses,
-  # but I don't know how to implement it with current gsubby approach.
-  def test_convert_elsif_block
-    IO.popen("bin/eex2slime test/fixtures/erb_elsif.eex -", "r") do |f|
-      assert_equal File.read("test/fixtures/erb_elsif.slime"), f.read
+  # but I don't know how to implement it with current gsub'y approach.
+  def test_convert_control_flow_blocks
+    IO.popen("bin/eex2slime test/fixtures/control_flow.eex -", "r") do |f|
+      assert_equal File.read("test/fixtures/control_flow.slime"), f.read
     end
   end
 
@@ -63,8 +67,8 @@ class TestEEx2Slime < MiniTest::Test
   end
 
   def test_via_regular_ruby_call
-    actual = EEx2Slime.convert!("test/fixtures/erb_elsif.eex", :eex)
-    assert_equal File.read("test/fixtures/erb_elsif.slime").strip, actual
+    actual = EEx2Slime.convert!("test/fixtures/control_flow.eex", :eex)
+    assert_equal File.read("test/fixtures/control_flow.slime").strip, actual
   end
 
   def test_data_attributes

@@ -3,7 +3,7 @@ require_relative 'hpricot_monkeypatches'
 module EEx2Slime
   class Converter
     def to_s
-      @slim
+      @slime
     end
   end
 
@@ -13,7 +13,7 @@ module EEx2Slime
     end
 
     def initialize(html_or_stream)
-      @slim = Hpricot(html_or_stream).to_slime
+      @slime = Hpricot(html_or_stream).to_slime
     end
   end
 
@@ -36,7 +36,7 @@ module EEx2Slime
       prepare_elixir_condition_expressions!
       prepare_end_statements!
       prepare_regular_elixir_code!
-      @slim = Hpricot(@eex).to_slime
+      @slime = Hpricot(@eex).to_slime
     end
 
     private
