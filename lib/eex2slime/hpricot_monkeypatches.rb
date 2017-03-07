@@ -1,16 +1,16 @@
 require 'hpricot'
 
-Hpricot::XHTMLTransitional.tagset[:ruby] = [:code]
+Hpricot::XHTMLTransitional.tagset[:elixir] = [:code]
 
 module SlimText
-  def to_slim(lvl=0)
+  def to_slime(lvl=0)
     return nil if textify.strip.empty?
     ('  ' * lvl) + %(| #{textify.gsub(/\s+/, ' ').strip})
   end
 end
 
 module BlankSlim
-  def to_slim(_lvl=0)
+  def to_slime(_lvl=0)
     nil
   end
 end
@@ -40,7 +40,7 @@ class Hpricot::Comment
 end
 
 class Hpricot::DocType
-  def to_slim(lvl=0)
+  def to_slime(lvl=0)
     if to_s.include? "xml"
       to_s.include?("iso-8859-1") ? "doctype xml ISO-88591" : "doctype xml"
     elsif to_s.include? "XHTML" or self.to_s.include? "HTML 4.01"
@@ -56,36 +56,36 @@ end
 class Hpricot::Elem
   BLANK_RE = /\A[[:space:]]*\z/
 
-  def slim(lvl=0)
+  def slime(lvl=0)
     r = '  ' * lvl
 
-    return r + slim_ruby_code(r) if ruby?
+    return r + slime_elixir_code(r) if elixir?
 
     r += name unless skip_tag_name?
-    r += slim_id
-    r += slim_class
-    r += slim_attributes
+    r += slime_id
+    r += slime_class
+    r += slime_attributes
     r
   end
 
-  def to_slim(lvl=0)
+  def to_slime(lvl=0)
     if respond_to?(:children) and children
-      [slim(lvl), children_slim(lvl)].join("\n")
+      [slime(lvl), children_slime(lvl)].join("\n")
     else
-      slim(lvl)
+      slime(lvl)
     end
   end
 
   private
 
-  def children_slim(lvl)
+  def children_slime(lvl)
     children
-      .map { |c| c.to_slim(lvl+1) }
+      .map { |c| c.to_slime(lvl+1) }
       .select { |e| !e.nil? }
       .join("\n")
   end
 
-  def slim_ruby_code(r)
+  def slime_elixir_code(r)
     lines = code.lines.drop_while { |line| line.strip.empty? }
     indent_level = lines.first.match(/^ */)[0].length
     prettified = lines.map do |line|
@@ -104,15 +104,15 @@ class Hpricot::Elem
     div? and (has_id? || has_class?)
   end
 
-  def slim_id
+  def slime_id
     has_id?? "##{self['id']}" : ""
   end
 
-  def slim_class
+  def slime_class
     has_class?? ".#{self['class'].strip.split(/\s+/).join('.')}" : ""
   end
 
-  def slim_attributes
+  def slime_attributes
     remove_attribute('class')
     remove_attribute('id')
     has_attributes?? "[#{attributes_as_html.to_s.strip}]" : ""
@@ -130,8 +130,8 @@ class Hpricot::Elem
     has_attribute?('class') && !(BLANK_RE === self['class'])
   end
 
-  def ruby?
-    name == "ruby"
+  def elixir?
+    name == "elixir"
   end
 
   def div?
@@ -140,10 +140,10 @@ class Hpricot::Elem
 end
 
 class Hpricot::Doc
-  def to_slim
+  def to_slime
     if respond_to?(:children) and children
       children
-        .map { |x| x.to_slim }
+        .map { |x| x.to_slime }
         .select{|e| !e.nil? }
         .join("\n")
     else

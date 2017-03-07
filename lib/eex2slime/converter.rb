@@ -13,7 +13,7 @@ module EEx2Slime
     end
 
     def initialize(html_or_stream)
-      @slim = Hpricot(html_or_stream).to_slim
+      @slim = Hpricot(html_or_stream).to_slime
     end
   end
 
@@ -38,8 +38,8 @@ module EEx2Slime
       prepare_when_statements!
       prepare_elixir_condition_expressions!
       prepare_end_statements!
-      prepare_regular_ruby_code!
-      @slim = Hpricot(@erb).to_slim
+      prepare_regular_elixir_code!
+      @slim = Hpricot(@erb).to_slime
     end
 
     private
@@ -52,45 +52,45 @@ module EEx2Slime
 
     def prepare_control_flow_statements!
       @erb.gsub!(/<%(-\s+)?((\s*(case|if|for|unless) .+?)|.+?do\s*(\|.+?\|)?\s*)-?%>/) {
-        %(<ruby code="#{$2.gsub(/"/, '&quot;')}">)
+        %(<elixir code="#{$2.gsub(/"/, '&quot;')}">)
       }
     end
 
     def prepare_elixir_anonymous_functions!
       @erb.gsub!(/<%(-\s+)?(.+ fn.*->\s*)-?%>/) {
-        %(<ruby code="#{$2.gsub(/"/, '&quot;')}">)
+        %(<elixir code="#{$2.gsub(/"/, '&quot;')}">)
       }
     end
 
     def prepare_else_statements!
-      @erb.gsub!(/<%-?\s*else\s*-?%>/, %(</ruby><ruby code="else">))
+      @erb.gsub!(/<%-?\s*else\s*-?%>/, %(</elixir><elixir code="else">))
     end
 
     def prepare_elsif_statements!
       @erb.gsub!(/<%-?\s*(elsif .+?)\s*-?%>/) {
-        %(</ruby><ruby code="#{$1.gsub(/"/, '&quot;')}">)
+        %(</elixir><elixir code="#{$1.gsub(/"/, '&quot;')}">)
       }
     end
 
     def prepare_when_statements!
       @erb.gsub!(/<%-?\s*(when .+?)\s*-?%>/) {
-        %(</ruby><ruby code="#{$1.gsub(/"/, '&quot;')}">)
+        %(</elixir><elixir code="#{$1.gsub(/"/, '&quot;')}">)
       }
     end
 
     def prepare_elixir_condition_expressions!
       @erb.gsub!(/<%-?\s*(.* ->)\s*-?%>/) {
-        %(<ruby code="#{$1.gsub(/"/, '&quot;')}"></ruby>)
+        %(<elixir code="#{$1.gsub(/"/, '&quot;')}"></elixir>)
       }
     end
 
     def prepare_end_statements!
-      @erb.gsub!(/<%\s*(end|}|end\s+-)\s*%>/, %(</ruby>))
+      @erb.gsub!(/<%\s*(end|}|end\s+-)\s*%>/, %(</elixir>))
     end
 
-    def prepare_regular_ruby_code!
+    def prepare_regular_elixir_code!
       @erb.gsub!(/<%-?(.+?)\s*-?%>/m) {
-        %(<ruby code="#{$1.gsub(/"/, '&quot;')}"></ruby>)
+        %(<elixir code="#{$1.gsub(/"/, '&quot;')}"></elixir>)
       }
     end
   end
