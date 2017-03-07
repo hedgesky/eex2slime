@@ -28,9 +28,9 @@ class TestEEx2Slime < MiniTest::Test
     end
   end
 
-  def test_convert_multiline_block
-    IO.popen("bin/eex2slime test/fixtures/multiline_block.eex -", "r") do |f|
-      assert_equal File.read("test/fixtures/multiline_block.slime"), f.read
+  def test_convert_multiline_function
+    IO.popen("bin/eex2slime test/fixtures/multiline_function.eex -", "r") do |f|
+      assert_equal File.read("test/fixtures/multiline_function.slime"), f.read
     end
   end
 
