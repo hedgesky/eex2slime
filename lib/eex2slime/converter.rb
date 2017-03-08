@@ -1,29 +1,13 @@
 require_relative 'hpricot_monkeypatches'
 
 module EEx2Slime
-  class Converter
-    def to_s
-      @slime
-    end
-  end
-
-  class HTMLConverter < Converter
-    def self.from_stream(stream)
-      new(stream)
-    end
-
-    def initialize(html_or_stream)
-      @slime = Hpricot(html_or_stream).to_slime
-    end
-  end
-
-  class EExConverter < Converter
+  class EExConverter
     def self.from_stream(stream)
       input =
-        if File.exist?(stream)
-          open(stream).read
+        if stream.is_a?(IO)
+          stream.read
         else
-          stream
+          open(stream).read
         end
       new(input)
     end
@@ -37,6 +21,10 @@ module EEx2Slime
       prepare_end_statements!
       prepare_regular_elixir_code!
       @slime = Hpricot(@eex).to_slime
+    end
+
+    def to_s
+      @slime
     end
 
     private

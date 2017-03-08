@@ -2,5 +2,5 @@
 
 $:.unshift File.dirname(__FILE__) + '/../lib'
 require 'eex2slime/command'
-cmd = EEx2Slime::EExCommand.new(ARGV)
+cmd = EEx2Slime::Command.new(ARGV)
 cmd.run

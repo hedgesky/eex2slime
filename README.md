@@ -4,7 +4,7 @@ Script for converting HTML and EEx files to [Slime](http://slime-lang.com) templ
 
 ## Usage
 
-You may convert files using the included executables `html2slime` and `eex2slime`.
+You may convert files using the included executable `eex2slime`.
 
     # eex2slime -h
 
@@ -14,15 +14,7 @@ You may convert files using the included executables `html2slime` and `eex2slime
         -h, --help                       Show this message
         -v, --version                    Print version
 
-    # html2slime -h
-
-    Usage: html2slime INPUT_FILENAME_OR_DIRECTORY [OUTPUT_FILENAME_OR_DIRECTORY] [options]
-            --trace                      Show a full traceback on error
-        -d, --delete                     Delete HTML files
-        -h, --help                       Show this message
-        -v, --version                    Print version
-
-Alternatively, to convert files or strings on the fly in your application, you may do so by calling `EEx2Slime.convert!(file, format)` where format is either `:html` or `:eex`.
+Alternatively, to convert files or strings on the fly in your application, you may do so by calling `EEx2Slime.convert!(file)`.
 
 ## Regards
 

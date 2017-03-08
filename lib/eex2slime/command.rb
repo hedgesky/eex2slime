@@ -25,16 +25,11 @@ module EEx2Slime
     protected
 
     def format
-      @format ||=
-        if self.class.to_s == 'EEx2Slime::EExCommand'
-          :eex
-        else
-          :html
-        end
+      :eex
     end
 
     def command_name
-      @command_name ||= format == :html ? "html2slime" : "eex2slime"
+      :eex2slime
     end
 
     def set_opts(opts)
@@ -91,7 +86,9 @@ module EEx2Slime
         slime_file = destination || slime_file
       end
 
-      fail(ArgumentError, "Source and destination files can't be the same.") if @options[:input] != '-' && file == slime_file
+      if @options[:input] != '-' && file == slime_file
+        fail(ArgumentError, "Source and destination files can't be the same.")
+      end
 
       in_file = if @options[:input] == "-"
         $stdin
@@ -99,15 +96,16 @@ module EEx2Slime
         File.open(file, 'r')
       end
 
-      @options[:output] = slime_file && slime_file != '-' ? File.open(slime_file, 'w') : $stdout
-      @options[:output].puts EEx2Slime.convert!(in_file, format)
+      @options[:output] =
+        if slime_file && slime_file != '-'
+          File.open(slime_file, 'w')
+        else
+          $stdout
+        end
+      @options[:output].puts EEx2Slime.convert!(in_file)
       @options[:output].close
 
       File.delete(file) if @options[:delete]
     end
-  end
-  class HTMLCommand < Command
-  end
-  class EExCommand < Command
   end
 end

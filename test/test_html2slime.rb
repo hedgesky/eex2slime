@@ -90,7 +90,7 @@ class TestEEx2Slime < MiniTest::Test
 
   def assert_fixture_eex_to_slime(fixture_name)
     expected = File.read("test/fixtures/#{fixture_name}.slime").strip
-    actual = EEx2Slime.convert!("test/fixtures/#{fixture_name}.eex", :eex)
+    actual = EEx2Slime.convert!("test/fixtures/#{fixture_name}.eex")
     assert_equal(expected, actual)
   end
 
