@@ -62,8 +62,13 @@ class TestEEx2Slime < MiniTest::Test
   # But when I test this the open-sourced changelog app
   #   (https://github.com/thechangelog/changelog.com)
   # includes code writtin in such way. So support it.
+  # Anyway, thanks them a lot for opensourcing their app.
   def test_end_with_leading_equal_sign
     assert_fixture_eex_to_slime("end_with_leading_equal_sign")
+  end
+
+  def test_interpolation_inside_attributes
+    assert_fixture_eex_to_slime("interpolation_inside_attributes")
   end
 
   def test_data_attributes

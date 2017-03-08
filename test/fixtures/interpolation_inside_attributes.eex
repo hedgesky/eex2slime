@@ -1,0 +1,1 @@
+<div class="form <%= error_class(f, :name) %>"></div>
