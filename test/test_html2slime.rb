@@ -15,7 +15,7 @@ class TestEEx2Slime < MiniTest::Test
   end
 
   def test_integrational
-    IO.popen("bin/html2slime test/fixtures/slim_lang.eex -", "r") do |f|
+    IO.popen("bin/eex2slime test/fixtures/slim_lang.eex -", "r") do |f|
       assert_equal File.read("test/fixtures/slim_lang.slime"), f.read
     end
 
@@ -29,7 +29,7 @@ class TestEEx2Slime < MiniTest::Test
       f.puts "<p><h1>Hello</h1></p>"
     end
 
-    IO.popen("bin/html2slime #{html_file} -", "r") do |f|
+    IO.popen("bin/eex2slime #{html_file} -", "r") do |f|
       assert_equal "p\n  h1\n    | Hello\n", f.read
     end
   end
@@ -39,7 +39,7 @@ class TestEEx2Slime < MiniTest::Test
       f.puts "<p><h1>Hello</h1></p>"
     end
 
-    IO.popen("cat #{html_file} | bin/html2slime", "r") do |f|
+    IO.popen("cat #{html_file} | bin/eex2slime", "r") do |f|
       assert_equal "p\n  h1\n    | Hello\n", f.read
     end
   end
