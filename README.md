@@ -16,6 +16,10 @@ You may convert files using the included executable `eex2slime`.
 
 Alternatively, to convert files or strings on the fly in your application, you may do so by calling `EEx2Slime.convert!(file)`.
 
+## Installation
+
+    gem install eex2slime
+
 ## Regards
 
 Huge thanks to [Maiz Lulkin](https://github.com/joaomilho) and his original [html2slim repo](https://github.com/slim-template/html2slim).
