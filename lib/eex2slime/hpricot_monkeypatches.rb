@@ -113,17 +113,20 @@ class Hpricot::Elem
   end
 
   def slime_id
-    has_id?? "##{self['id']}" : ""
+    return "" unless has_id?
+    "##{self['id']}"
   end
 
   def slime_class
-    has_class?? ".#{self['class'].strip.split(/\s+/).join('.')}" : ""
+    return "" unless has_class?
+    ".#{self['class'].strip.split(/\s+/).join('.')}"
   end
 
   def slime_attributes
     remove_attribute('class')
     remove_attribute('id')
-    has_attributes?? "[#{attributes_as_html.to_s.strip}]" : ""
+    return "" unless has_attributes?
+    "[#{attributes_as_html.to_s.strip}]"
   end
 
   def has_attributes?
