@@ -93,7 +93,6 @@ module EEx2Slime
       #   2.  <elixir code="= b()"></elixir>
       #   3.  b()
       regex = /="([^"]*)(<elixir code="= ?((?:.(?!elixir))+)"><\/elixir>)/
-      match_data = regex.match(@eex)
       @eex.gsub!(regex, '="\\1#{\\3}')
     end
   end

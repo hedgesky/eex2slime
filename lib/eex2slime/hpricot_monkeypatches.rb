@@ -113,7 +113,7 @@ class Hpricot::Elem
   end
 
   def skip_tag_name?
-    div? && (has_id? || has_only_normal_classes?)
+    div? && (has_id? || non_cryptic_classes.any?)
   end
 
   def slime_id
@@ -122,8 +122,9 @@ class Hpricot::Elem
   end
 
   def slime_class
-    return "" unless has_only_normal_classes?
-    ".#{normal_classes.join('.')}"
+    return "" unless has_class?
+    return "" if non_cryptic_classes.empty?
+    ".#{non_cryptic_classes.join('.')}"
   end
 
   def slime_attributes
@@ -148,29 +149,26 @@ class Hpricot::Elem
     name == "div"
   end
 
-  def has_only_normal_classes?
-    has_class? && crazy_classes.empty?
-  end
-
-  # demo app (changelog.com) contains classes with equal signes in them
   def remove_css_class
-    if has_class? && crazy_classes.any?
-      self["class"] = crazy_classes.join(" ")
+    if has_class? && cryptic_classes.any?
+      self["class"] = cryptic_classes.join(" ")
     else
       remove_attribute('class')
     end
   end
 
-  def normal_classes
+  def non_cryptic_classes
     return [] unless has_attribute?('class')
     classes = self['class'].strip.split(/\s+/)
-    classes.reject { |s| s.include?("=") }
+    classes.reject { |s| s.match(/[=#]/) }
   end
 
-  def crazy_classes
+  # We can have interpolation inside attributes.
+  # Such classes should always be in attributes section (not shortened)
+  def cryptic_classes
     return [] unless has_attribute?('class')
     classes = self['class'].strip.split(/\s+/)
-    classes.select { |s| s.include?("=") }
+    classes.select { |s| s.match(/[=#]/) }
   end
 end
 

@@ -1,1 +1,2 @@
-.form[class="#{error_class(f, :name)}"]
+div
+  .form[class="#{a()}" data="#{b()}"]
