@@ -70,7 +70,7 @@ module EEx2Slime
     end
 
     def prepare_end_statements!
-      @eex.gsub!(/<%\s*(end|}|end\s+-)\s*%>/, %(</elixir>))
+      @eex.gsub!(/<%=?\s*(end|}|end\s+-)\s*%>/, %(</elixir>))
     end
 
     def prepare_regular_elixir_code!

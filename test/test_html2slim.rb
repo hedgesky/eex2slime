@@ -58,8 +58,12 @@ class TestEEx2Slime < MiniTest::Test
     assert_fixture_eex_to_slime("multiline_function")
   end
 
-  def test_nested
-    assert_fixture_eex_to_slime("nested")
+  # Generally you shouldn't write code in this manner.
+  # But when I test this the open-sourced changelog app
+  #   (https://github.com/thechangelog/changelog.com)
+  # includes code writtin in such way. So support it.
+  def test_end_with_leading_equal_sign
+    assert_fixture_eex_to_slime("end_with_leading_equal_sign")
   end
 
   def test_data_attributes
