@@ -83,6 +83,10 @@ class Hpricot::Elem
     end
   end
 
+  def elixir?
+    name == "elixir"
+  end
+
   private
 
   def children_slime(lvl)
@@ -141,10 +145,6 @@ class Hpricot::Elem
     has_attribute?('class') && !(BLANK_RE === self['class'])
   end
 
-  def elixir?
-    name == "elixir"
-  end
-
   def div?
     name == "div"
   end
@@ -152,11 +152,8 @@ end
 
 class Hpricot::Doc
   def to_slime
-    if respond_to?(:children) and children
-      children
-        .map { |x| x.to_slime }
-        .select{|e| !e.nil? }
-        .join("\n")
+    if respond_to?(:children) && children
+      children.map(&:to_slime).reject(&:nil?).join("\n")
     else
       ''
     end

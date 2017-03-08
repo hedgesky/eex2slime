@@ -20,6 +20,7 @@ module EEx2Slime
       prepare_elixir_condition_expressions!
       prepare_end_statements!
       prepare_regular_elixir_code!
+      prepare_elixir_inside_attributes!
       @slime = Hpricot(@eex).to_slime
     end
 
@@ -65,6 +66,35 @@ module EEx2Slime
       @eex.gsub!(/<%-?(.+?)\s*-?%>/m) {
         %(<elixir code="#{$1.gsub(/"/, '&quot;')}"></elixir>)
       }
+    end
+
+    # test string
+    # <div class="form <%= a() %>" data="<%= b() %>"></div>
+    def prepare_elixir_inside_attributes!
+      # /
+      #   ="        # ensure we are in attribute value
+      #   ([^"]*)   # match possible other values
+      #   (
+      #     <elixir code="= ?
+      #     ( # match all code inside elixir tag
+      #       (?:.(?!elixir))+ # but forbid spanning over other attributes
+      #     )
+      #     "><\/elixir>
+      #   )
+      # /x
+      #
+      # Example match data:
+      #   Match 1
+      #   1.  form
+      #   2.  <elixir code="= a()"></elixir>
+      #   3.  a()
+      #   Match 2
+      #   1.
+      #   2.  <elixir code="= b()"></elixir>
+      #   3.  b()
+      regex = /="([^"]*)(<elixir code="= ?((?:.(?!elixir))+)"><\/elixir>)/
+      match_data = regex.match(@eex)
+      @eex.gsub!(regex, '="\\1#{\\3}')
     end
   end
 end

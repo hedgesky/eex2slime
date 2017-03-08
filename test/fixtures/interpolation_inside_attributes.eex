@@ -1,1 +1,3 @@
-<div class="form <%= error_class(f, :name) %>"></div>
+<div>
+  <div class="form <%= a() %>" data="<%= b() %>"></div>
+</div>
