@@ -1,8 +1,10 @@
-<span><span>
+<span>
 <%
   result = MultiLine.works(
     a, b, c, d
-  )
+  ) %>
+<%= SomeModule.some_function(
+      result, foo: "bar"
+    )
 %>
-<%= SomeModule.some_function(result, foo: "bar") %>
-</span></span>
+</span>

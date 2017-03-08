@@ -7,6 +7,11 @@ module SlimText
     return nil if textify.strip.empty?
     ('  ' * lvl) + %(| #{textify.gsub(/\s+/, ' ').strip})
   end
+
+  # default implementation
+  def textify
+    to_s
+  end
 end
 
 module BlankSlim
@@ -17,10 +22,12 @@ end
 
 class Hpricot::CData
   include SlimText
-
-  def textify
-    to_s
-  end
+end
+class Hpricot::XMLDecl
+  include SlimText
+end
+class Hpricot::Attributes
+  include SlimText
 end
 
 class Hpricot::Text
@@ -88,9 +95,10 @@ class Hpricot::Elem
   def slime_elixir_code(r)
     lines = code.lines.drop_while { |line| line.strip.empty? }
     indent_level = lines.first.match(/^ */)[0].length
-    prettified = lines.map do |line|
+    prettified_lines = lines.map do |line|
       line.slice(indent_level .. -1).rstrip
-    end.join("\n#{r}- ")
+    end
+    prettified = prettified_lines.join(" \\\n#{r}  ")
 
     first_symbol = code.strip[0] == "=" ? "" : "- "
     first_symbol + prettified
