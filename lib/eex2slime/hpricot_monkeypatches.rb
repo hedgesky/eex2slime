@@ -113,24 +113,23 @@ class Hpricot::Elem
   end
 
   def skip_tag_name?
-    div? and (has_id? || has_class?)
+    div? && (has_id? || has_only_normal_classes?)
   end
 
   def slime_id
     return "" unless has_id?
-    "##{self['id']}"
+    "#" << self['id']
   end
 
   def slime_class
-    return "" unless has_class?
-    ".#{self['class'].strip.split(/\s+/).join('.')}"
+    return "" unless has_only_normal_classes?
+    ".#{normal_classes.join('.')}"
   end
 
   def slime_attributes
-    remove_attribute('class')
+    remove_css_class
     remove_attribute('id')
-    return "" unless has_attributes?
-    "[#{attributes_as_html.to_s.strip}]"
+    has_attributes? ? "[#{attributes_as_html.to_s.strip}]" : ""
   end
 
   def has_attributes?
@@ -147,6 +146,31 @@ class Hpricot::Elem
 
   def div?
     name == "div"
+  end
+
+  def has_only_normal_classes?
+    has_class? && crazy_classes.empty?
+  end
+
+  # demo app (changelog.com) contains classes with equal signes in them
+  def remove_css_class
+    if has_class? && crazy_classes.any?
+      self["class"] = crazy_classes.join(" ")
+    else
+      remove_attribute('class')
+    end
+  end
+
+  def normal_classes
+    return [] unless has_attribute?('class')
+    classes = self['class'].strip.split(/\s+/)
+    classes.reject { |s| s.include?("=") }
+  end
+
+  def crazy_classes
+    return [] unless has_attribute?('class')
+    classes = self['class'].strip.split(/\s+/)
+    classes.select { |s| s.include?("=") }
   end
 end
 
