@@ -1,6 +1,6 @@
 ## EEx2Slime
 
-Script for converting HTML and EEx files to [Slime](http://slime-lang.com) templates. Slime is a lightweight template language.
+Script for converting EEx templates to [Slime](http://slime-lang.com). Slime is a lightweight template language.
 
 ## Usage
 
