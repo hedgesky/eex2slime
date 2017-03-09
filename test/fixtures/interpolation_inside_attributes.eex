@@ -1,3 +1,4 @@
 <div>
-  <div class="form <%= a("foo") %>" data="<%= b() %>"></div>
+  <div class="form <%= a("foo") %>" data="<%= b() %> another"></div>
+  <%= another() %>
 </div>

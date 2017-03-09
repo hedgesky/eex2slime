@@ -1,2 +1,3 @@
 div
-  .form[class="#{a("foo")}" data="#{b()}"]
+  .form[class="#{ a("foo") }" data="#{ b() } another"]
+  = another()

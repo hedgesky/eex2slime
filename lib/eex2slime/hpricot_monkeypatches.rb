@@ -130,7 +130,8 @@ class Hpricot::Elem
   def slime_attributes
     remove_css_class
     remove_attribute('id')
-    has_attributes? ? "[#{attributes_as_html.to_s.strip}]" : ""
+    return "" unless has_attributes?
+    "[#{attrs_with_restored_interpolation}]"
   end
 
   def has_attributes?
@@ -149,6 +150,14 @@ class Hpricot::Elem
     name == "div"
   end
 
+  def attrs_with_restored_interpolation
+    regex = /\#{([^{}]+)}/
+    attributes_as_html.to_s.strip.gsub(regex) do
+      code = $1.gsub("&quot;", '"')
+      "\#{ #{code} }"
+    end
+  end
+
   def remove_css_class
     if has_class? && cryptic_classes.any?
       self["class"] = cryptic_classes.join(" ")
@@ -158,17 +167,18 @@ class Hpricot::Elem
   end
 
   def non_cryptic_classes
-    return [] unless has_attribute?('class')
-    classes = self['class'].strip.split(/\s+/)
-    classes.reject { |s| s.match(/[=#]/) }
+    crypto_analyzer.last
+  end
+
+  def cryptic_classes
+    crypto_analyzer.first
   end
 
   # We can have interpolation inside attributes.
   # Such classes should always be in attributes section (not shortened)
-  def cryptic_classes
-    return [] unless has_attribute?('class')
-    classes = self['class'].strip.split(/\s+/)
-    classes.select { |s| s.match(/[=#]/) }
+  def crypto_analyzer
+    return [[], []] unless has_attribute?('class')
+    classes.partition { |s| s.match(/[=#"&()]/) }
   end
 end
 
