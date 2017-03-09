@@ -102,7 +102,7 @@ module EEx2Slime
         else
           $stdout
         end
-      @options[:output].puts EEx2Slime.convert!(in_file)
+      @options[:output].puts EEx2Slime.convert(in_file)
       @options[:output].close
 
       File.delete(file) if @options[:delete]

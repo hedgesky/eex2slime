@@ -1,7 +1,7 @@
-require_relative 'hpricot_monkeypatches'
+require_relative "hpricot_monkeypatches"
 
 module EEx2Slime
-  class EExConverter
+  class Converter
     def self.from_stream(stream)
       input =
         if stream.is_a?(IO)

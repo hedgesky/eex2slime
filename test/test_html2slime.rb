@@ -94,13 +94,13 @@ class TestEEx2Slime < MiniTest::Test
   private
 
   def assert_eex_to_slime(given_erb, expected_slim)
-    actual_slim = EEx2Slime::EExConverter.new(given_erb).to_s
+    actual_slim = EEx2Slime.convert_string(given_erb)
     assert_equal expected_slim, actual_slim
   end
 
   def assert_fixture_eex_to_slime(fixture_name)
     expected = File.read("test/fixtures/#{fixture_name}.slime").strip
-    actual = EEx2Slime.convert!("test/fixtures/#{fixture_name}.eex")
+    actual = EEx2Slime.convert("test/fixtures/#{fixture_name}.eex")
     assert_equal(expected, actual)
   end
 

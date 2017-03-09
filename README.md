@@ -16,7 +16,11 @@ You may convert files using the included executable `eex2slime`.
         -h, --help                       Show this message
         -v, --version                    Print version
 
-Alternatively, to convert files or strings on the fly in your application, you may do so by calling `EEx2Slime.convert!(file)`.
+Alternatively you could use the following API:
+
+    require 'eex2slime'
+    EEx2Slime.convert('path/to/file')
+    EEx2Slime.convert_string('<nav class="navbar"></nav>')
 
 ## Installation
 
