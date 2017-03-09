@@ -6,15 +6,14 @@ Script for converting EEx templates to [Slime](http://slime-lang.com). Slime is 
 
 ## Usage
 
-You may convert files using the included executable `eex2slime`.
+You may convert files using the included executable `eex2slime`:
 
-    $ eex2slime -h
-
-    Usage: eex2slime INPUT_FILENAME_OR_DIRECTORY [OUTPUT_FILENAME_OR_DIRECTORY] [options]
-            --trace                      Show a full traceback on error
-        -d, --delete                     Delete EEx files
-        -h, --help                       Show this message
-        -v, --version                    Print version
+    $ eex2slime foo.eex              # output to foo.slime
+    $ eex2slime foo.eex bar.slime    # output to bar.slime
+    $ eex2slime foo.eex -            # output to stdout
+    $ cat foo.eex | eex2slime        # input from stdin, output to stdout
+    $ eex2slime dir/                 # convert all .eex files recursively
+    $ eex2slime --delete dir/        # delete .eex files after convertion. Be sure you have a backup!
 
 Alternatively you could use the following API:
 
