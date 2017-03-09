@@ -8,10 +8,10 @@ Gem::Specification.new do |s|
   s.date             = Date.today.to_s
   s.authors          = ["Anton Chuchkalov"]
   s.email            = ["hedgesky@gmail.com"]
-  s.summary          = %q{EEx to Slime converter.}
-  s.description      = %q{
+  s.summary          = "EEx to Slime converter."
+  s.description      = "
     Make your templates lightweight by converting them from EEx to Slime.
-  }.strip
+  ".strip
   s.homepage         = "https://github.com/hedgesky/eex2slime"
   s.extra_rdoc_files = ["README.md"]
   s.rdoc_options     = ["--charset=UTF-8"]
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
   s.executables      = `git ls-files -- bin/*`.split("\n").map { |f|
     File.basename(f)
   }
-  s.licenses         = ['MIT']
+  s.licenses         = ["MIT"]
 
   s.add_dependency "hpricot", "0.8.6"
   s.add_development_dependency "minitest", "~> 5"

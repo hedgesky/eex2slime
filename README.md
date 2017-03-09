@@ -1,12 +1,14 @@
 ## EEx2Slime
 
+[![Gem Version](https://badge.fury.io/rb/eex2slime.svg)](https://badge.fury.io/rb/eex2slime)
+
 Script for converting EEx templates to [Slime](http://slime-lang.com). Slime is a lightweight template language.
 
 ## Usage
 
 You may convert files using the included executable `eex2slime`.
 
-    # eex2slime -h
+    $ eex2slime -h
 
     Usage: eex2slime INPUT_FILENAME_OR_DIRECTORY [OUTPUT_FILENAME_OR_DIRECTORY] [options]
             --trace                      Show a full traceback on error
