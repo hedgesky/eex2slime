@@ -1,4 +1,4 @@
 div
-  .required[class="#{ error_class f, :slug }"]
+  .form[class="foo-#{ error_class f, :slug }-bar"]
   .form[class="#{ a("foo", bar) }" data="#{ b() } another"]
   = another()

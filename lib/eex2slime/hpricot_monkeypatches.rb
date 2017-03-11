@@ -176,11 +176,13 @@ class Hpricot::Elem
 
   # We can have interpolation inside attributes.
   # Such classes should always be in attributes section (not shortened)
+  # This handles cituations like this:
+  #   <div class="form foo-<%= error_class f, :slug %>-bar"></div>
   def crypto_analyzer
     return [[], []] unless has_attribute?("class")
     @crypto_analyzer ||= begin
       class_value = self["class"].strip
-      interpolation_regex = /\#{(?:[^{}]+)}/
+      interpolation_regex = /[-_\w]*\#{(?:[^{}]+)}[-_\w]*/
       interpolated_classes = class_value.scan(interpolation_regex)
       class_value.gsub!(interpolation_regex, "")
 

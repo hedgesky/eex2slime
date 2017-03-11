@@ -1,5 +1,5 @@
 <div>
-  <div class="required <%= error_class f, :slug %>"></div>
+  <div class="form foo-<%= error_class f, :slug %>-bar"></div>
   <div class="form <%= a("foo", bar) %>" data="<%= b() %> another"></div>
   <%= another() %>
 </div>
