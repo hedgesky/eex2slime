@@ -1,0 +1,3 @@
+<article class="<%= episode.podcast.slug %> <%= if index == 0 do %>is-active<% end %>">
+  <%= episode.subhighlight |> md_to_html %>
+</article>

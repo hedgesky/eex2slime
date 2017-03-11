@@ -30,16 +30,11 @@ module EEx2Slime
 
     private
 
-    def prepare_curly_blocks!
-      @eex.gsub!(/<%(.+?)\s*\{\s*(\|.+?\|)?\s*%>/) {
-        %(<%#{$1} do #{$2}%>)
-      }
-    end
-
     def prepare_control_flow_statements!
-      @eex.gsub!(/<%(-\s+)?((\s*(case|if|for|unless) .+?)|.+?do\s*(\|.+?\|)?\s*)-?%>/) {
-        %(<elixir code="#{$2.gsub(/"/, '&quot;')}">)
-      }
+      regex1 = /<%(?:-\s+)?((\s*(case|if|for|unless) ((?:(?!%>).)+)?))-?%>/
+      regex2 = /<%(?:-\s+)?(((?:(?!%>).)+)?do\s*(\|.+?\|)?\s*)-?%>/
+      @eex.gsub!(regex1) { %(<elixir code="#{$1.gsub(/"/, '&quot;')}">) }
+      @eex.gsub!(regex2) { %(<elixir code="#{$1.gsub(/"/, '&quot;')}">) }
     end
 
     def prepare_elixir_anonymous_functions!

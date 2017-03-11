@@ -1,0 +1,5 @@
+| <article class="#{episode.podcast.slug}
+= if index == 0 do
+  | is-active
+| ">
+= episode.subhighlight |> md_to_html

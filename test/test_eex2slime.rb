@@ -76,6 +76,11 @@ class TestEEx2Slime < MiniTest::Test
     assert_fixture_eex_to_slime("interpolation_inside_attributes")
   end
 
+  # isn't fully supported, but at least output shouldn't containt <elixir> tags
+  def test_inline_ifs
+    assert_fixture_eex_to_slime("inline_ifs")
+  end
+
   def test_data_attributes
     html = '<a href="test" data-param1="var" data-param2="(1 + 1)"></a>'
     slim = 'a[href="test" data-param1="var" data-param2="(1 + 1)"]'

@@ -182,7 +182,7 @@ class Hpricot::Elem
     return [[], []] unless has_attribute?("class")
     @crypto_analyzer ||= begin
       class_value = self["class"].strip
-      interpolation_regex = /[-_\w]*\#{(?:[^{}]+)}[-_\w]*/
+      interpolation_regex = /[-\w]*\#{(?:[^{}]+)}[-\w]*/
       interpolated_classes = class_value.scan(interpolation_regex)
       class_value.gsub!(interpolation_regex, "")
 
