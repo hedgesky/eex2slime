@@ -83,11 +83,11 @@ class Hpricot::Elem
     end
   end
 
+  private
+
   def elixir?
     name == "elixir"
   end
-
-  private
 
   def children_slime(lvl)
     children
@@ -162,7 +162,7 @@ class Hpricot::Elem
     if has_class? && cryptic_classes.any?
       self["class"] = cryptic_classes.join(" ")
     else
-      remove_attribute('class')
+      remove_attribute("class")
     end
   end
 
@@ -177,8 +177,18 @@ class Hpricot::Elem
   # We can have interpolation inside attributes.
   # Such classes should always be in attributes section (not shortened)
   def crypto_analyzer
-    return [[], []] unless has_attribute?('class')
-    classes.partition { |s| s.match(/[=#"&()]/) }
+    return [[], []] unless has_attribute?("class")
+    @crypto_analyzer ||= begin
+      class_value = self["class"].strip
+      interpolation_regex = /\#{(?:[^{}]+)}/
+      interpolated_classes = class_value.scan(interpolation_regex)
+      class_value.gsub!(interpolation_regex, "")
+
+      crypt, non_crypt = class_value.split(/\s+/).partition do |klass|
+        klass.match(/[=#"&()]/)
+      end
+      [crypt + interpolated_classes, non_crypt]
+    end
   end
 end
 

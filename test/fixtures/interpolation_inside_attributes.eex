@@ -1,4 +1,5 @@
 <div>
-  <div class="form <%= a("foo") %>" data="<%= b() %> another"></div>
+  <div class="required <%= error_class f, :slug %>"></div>
+  <div class="form <%= a("foo", bar) %>" data="<%= b() %> another"></div>
   <%= another() %>
 </div>
