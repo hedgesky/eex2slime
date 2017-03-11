@@ -76,9 +76,13 @@ class TestEEx2Slime < MiniTest::Test
     assert_fixture_eex_to_slime("interpolation_inside_attributes")
   end
 
-  # isn't fully supported, but at least output shouldn't containt <elixir> tags
+  # isn't fully supported, but at least output shouldn't contain <elixir> tags
   def test_inline_ifs
     assert_fixture_eex_to_slime("inline_ifs")
+  end
+
+  def test_utf_8
+    assert_fixture_eex_to_slime("utf-8")
   end
 
   def test_data_attributes
