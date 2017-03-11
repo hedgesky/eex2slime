@@ -15,11 +15,11 @@ class TestEEx2Slime < MiniTest::Test
   end
 
   def test_integrational
-    IO.popen("bin/eex2slime test/fixtures/slim_lang.eex -", "r") do |f|
+    IO.popen("bin/eex2slime test/fixtures/slim_lang.html.eex -", "r") do |f|
       assert_equal File.read("test/fixtures/slim_lang.slime"), f.read
     end
 
-    IO.popen("bin/eex2slime test/fixtures/eex_example.eex -", "r") do |f|
+    IO.popen("bin/eex2slime test/fixtures/eex_example.html.eex -", "r") do |f|
       assert_equal File.read("test/fixtures/eex_example.slime"), f.read
     end
   end
@@ -109,7 +109,7 @@ class TestEEx2Slime < MiniTest::Test
 
   def assert_fixture_eex_to_slime(fixture_name)
     expected = File.read("test/fixtures/#{fixture_name}.slime").strip
-    actual = EEx2Slime.convert("test/fixtures/#{fixture_name}.eex")
+    actual = EEx2Slime.convert("test/fixtures/#{fixture_name}.html.eex")
     assert_equal(expected, actual)
   end
 
