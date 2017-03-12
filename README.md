@@ -40,9 +40,11 @@ Huge thanks to [Maiz Lulkin](https://github.com/joaomilho) and his original [htm
 
 It might fail in some cases, but in general yes, it does! I've checked it on the opersourced [changelog.com app](https://github.com/thechangelog/changelog.com). After a bit of preparing this tool finely converted all EEx templates.
 
+CI runs tests on Rubies 2.2, 1.9.3. Ruby 1.8.7 isn't supported.
+
 ## Known issues
 
-- incorrect HTML will break inner HTML parser. Example (notice misplaced slash):
+- Incorrect HTML will break inner HTML parser. Example (notice misplaced slash):
 
     ```html
     <img width="75" / height="75">
