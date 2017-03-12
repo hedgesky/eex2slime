@@ -1,6 +1,7 @@
 ## EEx2Slime
 
 [![Gem Version](https://badge.fury.io/rb/eex2slime.svg)](https://badge.fury.io/rb/eex2slime)
+[![Build Status](https://travis-ci.org/hedgesky/eex2slime.svg?branch=master)](https://travis-ci.org/hedgesky/eex2slime)
 
 Script for converting EEx templates to [Slime](http://slime-lang.com). Slime is a lightweight template language.
 
