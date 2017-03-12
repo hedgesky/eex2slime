@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
     File.basename(f)
   }
   s.licenses         = ["MIT"]
+  s.required_ruby_version = '>= 1.9.3'
 
   s.add_dependency "hpricot", "0.8.6"
   s.add_development_dependency "minitest", "~> 5"
