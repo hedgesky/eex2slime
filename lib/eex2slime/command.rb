@@ -16,10 +16,10 @@ module EEx2Slime
       @opts.parse!(@args)
       process!
       exit 0
-    rescue Exception => ex
-      raise ex if @options[:trace] || SystemExit === ex
-      $stderr.print "#{ex.class}: " if ex.class != RuntimeError
-      $stderr.puts ex.message
+    rescue => error
+      raise error if @options[:trace] || SystemExit === error
+      $stderr.print "#{error.class}: " if error.class != RuntimeError
+      $stderr.puts error.message
       $stderr.puts '  Use --trace for backtrace.'
       exit 1
     end
