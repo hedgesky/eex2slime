@@ -1,3 +1,5 @@
+# This class takes EEx string and replaces all embedded elixir with
+# <elixir code="...">...</elixir> tags, which are parsed with Hpricot.
 require_relative "hpricot_monkeypatches"
 
 module EEx2Slime

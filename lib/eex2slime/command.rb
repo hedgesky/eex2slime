@@ -1,3 +1,5 @@
+# This class parses CLI arguments and runs converter.
+
 require 'optparse'
 require 'eex2slime'
 

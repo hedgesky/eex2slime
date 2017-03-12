@@ -1,3 +1,6 @@
+# This library converts EEx templates to Slime. It's based on html2slim
+# library by @joaomilho. Usage examples are in README.
+
 require_relative 'eex2slime/version'
 require_relative 'eex2slime/converter'
 

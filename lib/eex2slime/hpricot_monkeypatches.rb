@@ -1,3 +1,4 @@
+# Patch Hpricot to support our custom <elixir> tags.
 require 'hpricot'
 
 Hpricot::XHTMLTransitional.tagset[:elixir] = [:code]
