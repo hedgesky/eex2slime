@@ -60,14 +60,13 @@ class TestEEx2Slime < MiniTest::Test
 
   # Generally you shouldn't write code in this manner.
   # But changelog app (https://github.com/thechangelog/changelog.com),
-  # which I used in test purposes,
-  # includes code written in such a way. Yack.
+  # which I used in test purposes, includes code written in such a way.
+  # Anyway, thanks them a lot for opensourcing their app.
   def test_end_with_leading_equal_sign
     assert_fixture_eex_to_slime("end_with_leading_equal_sign")
   end
 
-  # Again, crazy changelog code style.
-  # Anyway, thanks them a lot for opensourcing their app.
+  # Again, strange changelog code style.
   def test_class_with_equal_sign
     assert_fixture_eex_to_slime("class_with_equal_sign")
   end
