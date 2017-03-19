@@ -12,6 +12,11 @@ module EEx2Slime
           open(stream).read
         end
       new(input)
+    rescue
+      human_readable_name = stream.path if stream.respond_to?(:path)
+      human_readable_name ||= stream.inspect
+      $stderr.puts "An error occurred during converting #{human_readable_name}"
+      raise
     end
 
     def initialize(input)
