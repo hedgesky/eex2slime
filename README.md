@@ -11,13 +11,16 @@ You may convert files using the included executable `eex2slime`:
 
 ```bash
 $ gem install eex2slime
+# Suggested usage way. Will create .slime files near original .eex ones
+$ eex2slime lib/web/templates/
+# Optionally delete .eex files after convertion. Be sure you have a backup!
+$ eex2slime --delete lib/web/templates/
 
+# Another ways:
 $ eex2slime foo.html.eex                   # outputs to foo.html.slime by default
 $ eex2slime foo.html.eex bar.html.slime    # outputs to bar.html.slime
 $ eex2slime foo.html.eex -                 # outputs to stdout
 $ cat foo.eex | eex2slime                  # input from stdin, outputs to stdout
-$ eex2slime dir/                           # convert all .eex files recursively
-$ eex2slime --delete dir/                  # delete .eex files after convertion. Be sure you have a backup!
 ```
 
 Alternatively you could use the following API:
@@ -38,53 +41,82 @@ Huge thanks to [Maiz Lulkin](https://github.com/joaomilho) and his original [htm
 
 ## Does it really work?
 
-It might fail in some cases, but in general yes, it does! I've checked it on the opersourced [changelog.com app](https://github.com/thechangelog/changelog.com). After a bit of preparing this tool finely converted all EEx templates.
+It might fail in some cases, but in general yes, it does! I've checked it on the opensourced [changelog.com app](https://github.com/thechangelog/changelog.com) and the [hex.pm app](https://github.com/hexpm/hexpm). After a bit of preparing this tool finely converted all EEx templates.
 
 CI runs tests on Rubies 2.2, 1.9.3. Ruby 1.8.7 isn't supported.
 
 ## Known issues
 
-- Incorrect HTML will break inner HTML parser. Example (notice misplaced slash):
+### Incorrect HTML
 
-    ```html
-    <img width="75" / height="75">
-    ```
+Using incorrect html in original templates will break inner HTML parser. Example (notice misplaced slash):
 
-- Nested interpolation won't play well with Slime. This:
+```html
+<img width="75" / height="75">
+```
 
-    ```erb
-    <img src="<%= static_url(@conn, "/images/podcasts/#{@podcast.slug}.svg") %>">
-    ```
+### Nested interpolation
 
-    should be rewritten to:
+It doesn't play well with Slime. This:
 
-    ```erb
-    <% image_url = static_url(@conn, "/images/podcasts/#{@podcast.slug}.svg") %>
-    <img src="<%= image_url %>">
-    ```
+```erb
+<img src="<%= static_url(@conn, "/images/podcasts/#{@podcast.slug}.svg") %>">
+```
 
-- This library doesn't support inline `if`'s interpolation:
+should be rewritten to:
 
-    ```erb
-    <!-- such constructions aren't supported -->
-    <article class="<%= if index == 0 do %>is-active<% end %>"></article>
-    ```
+```erb
+<% image_url = static_url(@conn, "/images/podcasts/#{@podcast.slug}.svg") %>
+<img src="<%= image_url %>">
+```
 
-- With EEx you could do something like this:
+### Inline `if`'s interpolation
 
-    ```erb
-    # header.html.eex
-    <div class="container">
+Such constructions aren't supported:
 
-    # body.html.eex
-    body content is expected to be inside container div
+```erb
+<article class="<%= if index == 0 do %>is-active<% end %>"></article>
+```
 
-    # footer.html.eex
-    </div>
-    ```
+### Non-closed tags
 
-    Slime doesn't support this, so `eex2slime` will produce non-expected output (body won't be nested inside the container). Be wary.
+```erb
+# header.html.eex. Notice non-closed div.
+<div class="container">
 
+# body.html.eex
+body content is expected to be inside container
+
+# footer.html.eex. Closing div.
+</div>
+```
+
+Slime doesn't support this, so `eex2slime` will produce non-expected output: body won't be nested inside the container. Be wary.
+
+### Multiline elixir
+
+There are three ways to achieve multiline elixir in Slime:
+
+```slim
+- a = 1
+- b = 2
+
+- a = 1 \
+  b = 2
+
+elixir:
+  a = 1
+  b = 2
+```
+
+First approach leads to errors in such cases:
+
+```slim
+- some_function(first,
+- second)
+```
+
+I decided to use the second approach, but technically the third one is possible, too.
 
 ## License
 
