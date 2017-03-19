@@ -70,6 +70,22 @@ CI runs tests on Rubies 2.2, 1.9.3. Ruby 1.8.7 isn't supported.
     <article class="<%= if index == 0 do %>is-active<% end %>"></article>
     ```
 
+- With EEx you could do something like this:
+
+    ```erb
+    # header.html.eex
+    <div class="container">
+
+    # body.html.eex
+    body content is expected to be inside container div
+
+    # footer.html.eex
+    </div>
+    ```
+
+    Slime doesn't support this, so `eex2slime` will produce non-expected output (body won't be nested inside the container). Be wary.
+
+
 ## License
 
 This project uses MIT license.
