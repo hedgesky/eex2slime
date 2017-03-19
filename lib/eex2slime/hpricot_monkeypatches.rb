@@ -99,14 +99,20 @@ class Hpricot::Elem
 
   def slime_elixir_code(r)
     lines = code.lines.drop_while { |line| line.strip.empty? }
-    indent_level = lines.first.match(/^ */)[0].length
-    prettified_lines = lines.map do |line|
-      line.slice(indent_level .. -1).rstrip
-    end
+    prettified_lines = prettify_lines_indentation(lines)
     prettified = prettified_lines.join(" \\\n#{r}  ")
 
     first_symbol = code.strip[0] == "=" ? "" : "- "
     first_symbol + prettified
+  end
+
+  def prettify_lines_indentation(lines)
+    indent_level = lines.first.match(/^ */)[0].length
+    lines.map do |line|
+      next line.rstrip if line.length < indent_level
+      next line.rstrip unless line.slice(0, indent_level).strip.empty?
+      line.slice(indent_level .. -1).rstrip
+    end
   end
 
   def code

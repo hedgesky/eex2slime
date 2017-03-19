@@ -99,6 +99,14 @@ class TestEEx2Slime < MiniTest::Test
     assert_eex_to_slime '<%- test() %>', "- test()"
   end
 
+  def test_does_not_break_code_with_inconsistent_indentation
+    assert_fixture_eex_to_slime("inconsistent_indentation")
+  end
+
+  def test_does_not_fail_on_empty_lines_inside_code
+    assert_fixture_eex_to_slime("empty_lines_inside_code")
+  end
+
   private
 
   def assert_eex_to_slime(given_erb, expected_slim)
